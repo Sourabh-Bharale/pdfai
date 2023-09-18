@@ -6,11 +6,12 @@ import { useToast } from "./ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import axios ,{ AxiosError } from "axios";
 import { FileRequest } from "@/lib/validators/file";
-import { LoaderIcon } from 'lucide-react'
+import {useRouter} from 'next/navigation'
 type Props = {}
 
 export default function FileUpload({}: Props) {
   const {toast}  = useToast()
+  const router = useRouter()
   const {mutate,isLoading} = useMutation({
     mutationFn:async ({fileKey,fileName}:FileRequest)=>{
       const payload : FileRequest = {
@@ -44,8 +45,12 @@ export default function FileUpload({}: Props) {
         variant: 'destructive',
       })
     },
-    onSuccess:()=>{
-
+    onSuccess:({chat_id})=>{
+      router.push(`/chat/${chat_id}`)
+      return toast({
+        title:"Chat Initialized",
+        description:"Chat was initialized successfully",
+      })
     }
   })
 
@@ -56,6 +61,8 @@ export default function FileUpload({}: Props) {
         endpoint="fileUploader"
 
         onClientUploadComplete={(res) => {
+          if(res)
+            console.log(res[0])
           // Do something with the response
           if(res){
             const {key,name} = res[0]
