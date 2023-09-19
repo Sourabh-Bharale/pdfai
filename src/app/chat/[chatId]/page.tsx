@@ -35,7 +35,7 @@ async function page({params:{chatId}}: Props) {
                 <PDFViewer pdfUrl={currentChat?.pdfUrl||''}/>
             </div>
             <div className="flex-[3] border-l-4">
-                <Chats/>
+                <Chats chatId={parseInt(chatId)}/>
             </div>
         </div>
     </div>

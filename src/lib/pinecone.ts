@@ -52,9 +52,10 @@ export async function loadUTIntoPinecone(fileKey:string){
     const client = await getPineconeClient()
     const pineconeIndex = client.Index("pdfai");
     console.log('uploading vectors into pinecone')
-    const namespace = convertToAscii(fileKey)
+    // const namespace = convertToAscii(fileKey)
 
-    PineconeUtils.chunkedUpsert(pineconeIndex,vectors,namespace,10)
+    // await pineconeIndex.upsert({})
+    PineconeUtils.chunkedUpsert(pineconeIndex,vectors,'',10)
     console.log('done uploading vectors into pinecone')
     return documents[0]
 

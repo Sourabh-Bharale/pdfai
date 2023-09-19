@@ -5,14 +5,29 @@ import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import {useChat} from 'ai/react'
 import Messages from "./Messages"
-type Props = {}
+import { useEffect } from "react"
+type Props = {
+    chatId:number
+}
 
-function Chats({}: Props) {
+function Chats({chatId}: Props) {
     const {input,handleInputChange,handleSubmit,messages} = useChat({
-        api:'/api/chat'
+        api:'/api/chat',
+        body:{
+            chatId,
+        }
     })
+    useEffect(()=>{
+        const messageContainer = document.getElementById('message-container')
+        if(messageContainer){
+            messageContainer.scrollTo({
+                top:messageContainer.scrollHeight,
+                behavior:'smooth'
+            })
+        }
+    },[messages])
   return (
-    <div className="relative max-h-screen overflow-scroll">
+    <div className="relative max-h-screen overflow-scroll" id='message-container'>
         <div className="sticky top-0 inset-x-0 p-2 h-fit">
             <h1 className="text-xl font-bold">Chat</h1>
         </div>
