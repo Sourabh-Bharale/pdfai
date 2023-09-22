@@ -6,16 +6,29 @@ import { Input } from "./ui/input"
 import {useChat} from 'ai/react'
 import Messages from "./Messages"
 import { useEffect } from "react"
+import { useQuery } from "@tanstack/react-query"
+import axios from "axios"
+import { Message } from "ai"
 type Props = {
     chatId:number
 }
 
 function Chats({chatId}: Props) {
+    const {data:initialChats} = useQuery({
+        queryKey:['chat',chatId],
+        queryFn: async () =>{
+
+            const response = await axios.post<Message[]>('/api/messages/',{chatId})
+            return response.data
+        }
+    })
+
     const {input,handleInputChange,handleSubmit,messages} = useChat({
         api:'/api/chat',
         body:{
             chatId,
-        }
+        },
+        initialMessages:initialChats||[]
     })
     useEffect(()=>{
         const messageContainer = document.getElementById('message-container')

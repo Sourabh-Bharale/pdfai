@@ -29,7 +29,13 @@ function Messages({messages}: Props) {
                   }
                 )}
               >
+                {message.content.includes("```") ? (
+                <pre className="flex max-w-md overflow-x-scroll">
+                  <code>{message.content}</code>
+                </pre>
+              ) : (
                 <p>{message.content}</p>
+              )}
               </div>
             </div>
           );

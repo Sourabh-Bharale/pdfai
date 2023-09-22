@@ -1,18 +1,22 @@
 'use client'
 import { DrizzleChat } from "@/lib/db/schema"
 import Link from "next/link"
-import { buttonVariants } from "./ui/button"
+import { Button, buttonVariants } from "./ui/button"
 import { cn } from "@/lib/utils"
 import { CrownIcon, MessageCircleIcon, PlusCircleIcon } from "lucide-react"
 import { Separator } from "./ui/separator"
+import { useState } from "react"
+import axios from "axios"
+import SubscriptionButton from "./SubscriptionButton"
 
 type Props = {
     chats:DrizzleChat[],
     chatId:number,
+    isProMember:boolean
 }
 
-function ChatSidebar({chatId,chats}: Props) {
-  return (
+function ChatSidebar({chatId,chats,isProMember}: Props) {
+    return (
     <div className="w-full h-screen p-4 bg-primary/5 rounded-xl">
     <Link href={'/'} className={cn(buttonVariants({className:'w-full border-2'}),'flex w-full gap-2')}>
         <PlusCircleIcon className="w-4 h-4"/>
@@ -38,10 +42,11 @@ function ChatSidebar({chatId,chats}: Props) {
     <div className="absolute bottom-4 left-4">
         <div className="flex item-center gap-2 text-sm  flex-wrap justify-between">
             <Link className={cn(buttonVariants({variant:'ghost'}))} href='/'>Home</Link>
-            <Link className={cn(buttonVariants({className:'font-bold'}),'flex gap-1 items-center')} href='/'>
+            {/* <Button className={'flex gap-1 items-center'} onClick={handleSubscription} disabled={loading} isLoading={loading}>
                 <CrownIcon className="w-4 h-4 fill-amber-400 "/>
-                Upgrade
-            </Link>
+                Upgrade To Pro
+            </Button> */}
+            <SubscriptionButton isProMember={isProMember} />
         </div>
     </div>
     </div>
