@@ -1,17 +1,19 @@
 'use client'
 import "@uploadthing/react/styles.css";
 import { UploadButton } from "@/utils/uploadthing"
-import { useState } from "react";
 import { useToast } from "./ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import axios ,{ AxiosError } from "axios";
 import { FileRequest } from "@/lib/validators/file";
 import {useRouter} from 'next/navigation'
+import { checkSubscription } from "@/lib/subscription";
 type Props = {}
 
 export default function FileUpload({}: Props) {
   const {toast}  = useToast()
   const router = useRouter()
+
+
   const {mutate,isLoading} = useMutation({
     mutationFn:async ({fileKey,fileName}:FileRequest)=>{
       const payload : FileRequest = {
@@ -30,7 +32,14 @@ export default function FileUpload({}: Props) {
             variant: 'destructive',
           })
         }
-        if (err.response?.status === 422) {
+        else if(err.response?.status===403){
+          return toast({
+            title: 'Upgrade to Pro to create more chats.',
+            description: 'You have reached the maximum number of chats for your free account , Upgrade to Pro to create more chats.',
+            variant: 'destructive',
+          })
+        }
+        else if (err.response?.status === 422) {
           return toast({
               title: 'Invalid user name',
               description: 'A valid username is between 3 and 21 Alphanumeric characters only (special characters not allowed)',
@@ -54,11 +63,14 @@ export default function FileUpload({}: Props) {
     }
   })
 
+
+
   return (
     <div className="p-2 rounded-xl">
 
           <UploadButton
         endpoint="fileUploader"
+
 
         onClientUploadComplete={(res) => {
           if(res)

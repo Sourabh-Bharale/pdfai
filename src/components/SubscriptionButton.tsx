@@ -3,11 +3,13 @@ import { useState } from "react"
 import { Button } from "./ui/button"
 import axios from "axios"
 import { CrownIcon, Settings2Icon } from "lucide-react"
+
 type Props = {
     isProMember:boolean
+    text?:string
 }
 
-const SubscriptionButton = ({isProMember}: Props) => {
+const SubscriptionButton = ({isProMember,text}: Props) => {
     const [loading, setLoading] = useState<boolean>(false)
     const handleSubscription = async ()=>{
         try {
@@ -27,8 +29,8 @@ const SubscriptionButton = ({isProMember}: Props) => {
             <Settings2Icon className="w-4 h-4"/>
         </>):(
             <>
-            <h1>Upgrade To Pro</h1>
-            <CrownIcon className="w-4 h-4 fill-amber-400 "/>
+            <h1>{text||'Upgrade To Pro'}</h1>
+            {!text &&<CrownIcon className="w-4 h-4 fill-amber-400 "/>}
             </>
         )}
     </Button>

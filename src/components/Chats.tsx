@@ -40,15 +40,15 @@ function Chats({chatId}: Props) {
         }
     },[messages])
   return (
-    <div className="relative max-h-screen overflow-scroll" id='message-container'>
-        <div className="sticky top-0 inset-x-0 p-2 h-fit">
+    <div className="z-10 w-full h-full bg-background flex flex-col overflow-scroll scrollbar-thin scrollbar-thumb-current scrollbar-thumb-rounded-sm rounded-t-xl" id='message-container'>
+        <div className="p-2">
             <h1 className="text-xl font-bold">Chat</h1>
         </div>
 
         <Messages messages={messages}/>
 
-        <form onSubmit={handleSubmit} className="sticky bottom-0 inset-x-0 px-2 py-4 ">
-            <div className="flex">
+        <form onSubmit={handleSubmit} className=" px-2 py-4 ">
+            <div className="flex w-full gap-2">
             <Input value={input} onChange={handleInputChange} placeholder="Ask..." className="w-full" />
             <Button variant={'secondary'} className="gap-2 flex items-center">
                 <SendIcon className="w-4 h-4" />Send

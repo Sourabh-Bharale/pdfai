@@ -24,8 +24,8 @@ function Messages({messages}: Props) {
                 className={cn(
                   "rounded-lg px-3 text-sm py-1 shadow-md ring-1 ",
                   {
-                    "bg-blue-300 text-background font-semibold": message.role === "user",
-                    "bg-green-300 text-background font-semibold": message.role === "assistant",
+                    "bg-blue-300 text-black font-semibold": message.role === "user",
+                    "bg-green-300 text-black font-semibold": message.role === "assistant",
                   }
                 )}
               >
